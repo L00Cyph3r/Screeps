@@ -6,6 +6,7 @@ module.exports = function() {
     var body = [];
     for (let i = 0; i < numberOfParts; i++) {
       body.push(WORK);
+    // body.push(WORK);
     }
     for (let i = 0; i < numberOfParts; i++) {
       body.push(CARRY);
@@ -15,7 +16,7 @@ module.exports = function() {
     }
 
     // create creep with the created body and the given role
-    return this.createCreep(body, undefined, {
+    return this.createCreep(body, (roleName.substr(0, 1).toUpperCase() + "-" + numberOfParts + "-" + Math.floor((Math.random() * 1000) + 1)).toString(), {
       role: roleName,
       working: false
     });

@@ -16,28 +16,28 @@ In this script we are assuming the following:
   STRUCTURE_SPAWN
   STRUCTURE_TOWER
   ```
-- ### Upgrader<a name="role-upgrader"></a>
+- ### Upgrader
   Upgraders' their main task is upgrading your controller.  
   Defaults to (in order):  
-  - [Harvester](#role-harvester)
-- ### Builder<a name="role-builder"></a>
+  - [Harvester](#harvester)
+- ### Builder
   Builders' their main task is building their closest construction site.  
   Defaults to (in order):  
-  - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)
-- ### Repairer<a name="role-repairer"></a>
+  - [Upgrader](#upgrader)
+  - [Harvester](#harvester)
+- ### Repairer
   Repairers' their main task is repairing closest construction building with less than 100% of it's HP.  
   Defaults to (in order):  
-  - [Builder](#role-builder)
-  - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)
-- ### WallRepairer<a name="role-wallrepairer"></a>
+  - [Builder](#builder)
+  - [Upgrader](#upgrader)
+  - [Harvester](#harvester)
+- ### WallRepairer
   WallRepairers' their main task is finding damaged `STRUCTURE_WALL`, and repair if necessary.  
   Default to (in order):  
-  - [Repairer](#role-repairer)
-  - [Builder](#role-builder)
-  - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)
+  - [Repairer](#repairer)
+  - [Builder](#builder)
+  - [Upgrader](#upgrader)
+  - [Harvester](#harvester)
 
 # Config
 - ## Memory variables
@@ -89,6 +89,12 @@ In memory, there are variables that control some elements of the script, here's 
     - default: `true`
 
     Controls whether or not the CPU-Usage should be displayed on the console at every tick.
+  - #### `showCPUUsageModulus`
+    - type: `integer`
+    - default: `5`
+
+    Defines the modulus (every `num` seconds), on which the CPU-Usage is printed out.
+
 
 # Credits
 Special thanks to [thPion's tutorial-scripts](https://github.com/thPion/Screeps-Nooby-Guide) and his [helpful videos](https://www.youtube.com/playlist?list=PL0EZQ169YGlor5rzeJEYYPE3tGYT2zGT2)

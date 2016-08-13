@@ -45,6 +45,10 @@ if (Memory.showCPUUsage === undefined) {
   Memory.showCPUUsage = true;
   console.log("Variable 'showCPUUsage' was non-existent in memory, added with default value of 'true'");
 }
+if (Memory.showCPUUsageModulus === undefined) {
+  Memory.showCPUUsageModulus = 5;
+  console.log("Variable 'showCPUUsageModulus' was non-existent in memory, added with default value of '" + Memory.showCPUUsageModulus + "'");
+}
 
 module.exports.loop = function() {
   var numberOfHarvesters = 0;
@@ -114,12 +118,14 @@ module.exports.loop = function() {
       console.log("Spawned new creep: " + name);
     }
   }
-  (Memory.showCPUUsage) ? console.log(
-    "Total: " + (Math.round(Game.cpu.getUsed() * 100) / 100) +
-    "\tBucket: " + Game.cpu.bucket + "/10000" +
-    "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
-    "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
-    "") : null;
+  if (Game.time % Memory.showCPUUsageModulus === 0) {
+    if (Memory.showCPUUsage) console.log(
+        "Total: " + (Math.round(Game.cpu.getUsed() * 100) / 100) +
+        "\tBucket: " + Game.cpu.bucket + "/10000" +
+        "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
+        "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
+        "");
+  }
   if (Game.time % 10 === 0 && Memory.dbg === true) {
     console.log(numberOfHarvesters + "/" + Memory.minimumNumberOfHarvesters + " Harvesters\t" +
       numberOfUpgraders + "/" + Memory.minimumNumberOfUpgraders + " Upgraders\t" +

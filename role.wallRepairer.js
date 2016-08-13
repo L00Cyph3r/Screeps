@@ -13,11 +13,11 @@ module.exports = {
             filter: (s) => s.structureType === STRUCTURE_WALL &&
               s.hits / s.hitsMax < percentage
           });
-          if (target !== undefined) {
+          if (target) {
             break;
           }
         }
-        if (target != undefined) {
+        if (target) {
           if (creep.repair(target) === ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
           }

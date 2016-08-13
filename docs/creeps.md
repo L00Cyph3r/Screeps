@@ -23,9 +23,7 @@ The following roles are currently implemented:
   ```
 - ### <a name="role-upgrader"></a>Upgrader
 
-  Upgraders' their main task is upgrading your controller.  
-  Defaults to (in order):  
-  - [Harvester](#role-harvester)
+  Upgraders' their main task is upgrading your controller. They don't default because there is always some upgrading to do.
 
 
 - ### <a name="role-builder"></a>Builder
@@ -33,7 +31,6 @@ The following roles are currently implemented:
   Builders' their main task is building their closest construction site.  
   Defaults to (in order):  
   - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)
 
 
 - ### <a name="role-repairer"></a>Repairer
@@ -42,7 +39,6 @@ The following roles are currently implemented:
   Defaults to (in order):  
   - [Builder](#role-builder)
   - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)
 
 
 - ### WallRepairer<a name="role-wallrepairer"></a>
@@ -52,4 +48,3 @@ The following roles are currently implemented:
   - [Repairer](#role-repairer)
   - [Builder](#role-builder)
   - [Upgrader](#role-upgrader)
-  - [Harvester](#role-harvester)

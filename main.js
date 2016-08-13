@@ -38,6 +38,16 @@ if (Memory.minimumNumberOfWallRepairers === undefined) {
   console.log("Variable 'minimumNumberOfWallRepairers' was non-existent in memory, \
   added with default value of '" + Memory.minimumNumberOfWallRepairers + "'");
 }
+if (Memory.cpuBucketMin === undefined) {
+  Memory.cpuBucketMin = 3000;
+  console.log("Variable 'cpuBucketMin' was non-existent in memory, \
+  added with default value of '" + Memory.cpuBucketMin + "'");
+}
+if (Memory.cpuBucketMax === undefined) {
+  Memory.cpuBucketMax = 8000;
+  console.log("Variable 'cpuBucketMax' was non-existent in memory, \
+  added with default value of '" + Memory.cpuBucketMax + "'");
+}
 if (Memory.dbg === undefined) {
   Memory.dbg = true;
   console.log("Variable 'dbg' was non-existent in memory, added with default value of 'true'");
@@ -58,11 +68,7 @@ module.exports.loop = function() {
   var numberOfRepairers = 0;
   var numberOfWallRepairers = 0;
   var startCpu = Game.cpu.getUsed();
-  for (let name in Memory.creeps) {
-    if (Game.creeps[name] === undefined) {
-      delete Memory.creeps[name];
-    }
-  }
+
   cpuUsage['memory'] = Game.cpu.getUsed() - startCpu;
 
   var startCpu = Game.cpu.getUsed();
@@ -73,26 +79,57 @@ module.exports.loop = function() {
     'repairer': 0,
     'wallRepairer': 0
   };
-  for (let name in Game.creeps) {
-    var startCpu2 = Game.cpu.getUsed();
-    var creep = Game.creeps[name];
-    if (creep.memory.role === 'harvester') {
-      numberOfHarvesters++;
-      roleHarvester.run(creep);
-    } else if (creep.memory.role === 'upgrader') {
-      numberOfUpgraders++;
-      roleUpgrader.run(creep);
-    } else if (creep.memory.role === 'builder') {
-      numberOfBuilders++;
-      roleBuilder.run(creep);
-    } else if (creep.memory.role === 'repairer') {
-      numberOfRepairers++;
-      roleRepairer.run(creep);
-    } else if (creep.memory.role === 'wallRepairer') {
-      numberOfWallRepairers++;
-      roleWallRepairer.run(creep);
+  var cont = {
+    'creeps': true,
+    'creep': {
+      'harvester': true,
+      'upgrader': true,
+      'builder': true,
+      'repairer': true,
+      'wallRepairer': true,
+    },
+    'memoryGC': true,
+  };
+  if (Game.cpu.bucket < Memory.cpuBucketMin) {
+    cont['creeps'] = false;
+  }
+  for (let name in Memory.creeps) {
+    if (cont['memoryGC'] === true) {
+      if (Game.creeps[name] === undefined) {
+        delete Memory.creeps[name];
+      }
     }
-    cpuUsage['creeps'][creep.memory.role] += Game.cpu.getUsed() - startCpu2;
+  }
+  if (cont['creeps'] === true) {
+    for (let name in Game.creeps) {
+      var startCpu2 = Game.cpu.getUsed();
+      var creep = Game.creeps[name];
+      if (creep.memory.role === 'harvester') {
+        numberOfHarvesters++;
+        if (cont['creep'][creep.memory.role]) {
+          // console.log("True");
+          roleHarvester.run(creep);
+        }
+      } else if (creep.memory.role === 'upgrader') {
+        numberOfUpgraders++;
+        if (cont['creep']['upgrader'] === true) {
+          roleUpgrader.run(creep);
+        }
+      } else if (creep.memory.role === 'builder') {
+        numberOfBuilders++;
+        if (cont['creep'][creep.memory.role])
+          roleBuilder.run(creep);
+      } else if (creep.memory.role === 'repairer') {
+        numberOfRepairers++;
+        if (cont['creep'][creep.memory.role])
+          roleRepairer.run(creep);
+      } else if (creep.memory.role === 'wallRepairer') {
+        numberOfWallRepairers++;
+        if (cont['creep'][creep.memory.role])
+          roleWallRepairer.run(creep);
+      }
+      cpuUsage['creeps'][creep.memory.role] += Game.cpu.getUsed() - startCpu2;
+    }
   }
   cpuUsage['creep'] = Game.cpu.getUsed() - startCpu;
   var towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {
@@ -135,7 +172,7 @@ module.exports.loop = function() {
         "\tR:" + (Math.round(cpuUsage['creeps']['repairer'] * 100) / 100) +
         "");
   }
-  if (Game.time % 10 === 0 && Memory.dbg === true) {
+  if (Game.time % 10 === 0) {
     console.log(numberOfHarvesters + "/" + Memory.minimumNumberOfHarvesters + " Harvesters\t" +
       numberOfUpgraders + "/" + Memory.minimumNumberOfUpgraders + " Upgraders\t" +
       numberOfBuilders + "/" + Memory.minimumNumberOfBuilders + " Builders\t" +

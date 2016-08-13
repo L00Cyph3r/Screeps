@@ -7,6 +7,7 @@ var roleWallRepairer = require('role.wallRepairer');
 
 var cpuUsage = {};
 
+
 if (Memory.minimumEnergyNewCreep === undefined) {
   Memory.minimumEnergyNewCreep = Game.spawns.Spawn1.room.energyCapacityAvailable;
   console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, \
@@ -58,14 +59,22 @@ module.exports.loop = function() {
   var numberOfWallRepairers = 0;
   var startCpu = Game.cpu.getUsed();
   for (let name in Memory.creeps) {
-    if (Game.creeps[name] == undefined) {
+    if (Game.creeps[name] === undefined) {
       delete Memory.creeps[name];
     }
   }
   cpuUsage['memory'] = Game.cpu.getUsed() - startCpu;
 
   var startCpu = Game.cpu.getUsed();
+  cpuUsage['creeps'] = {
+    'harvester': 0,
+    'upgrader': 0,
+    'builder': 0,
+    'repairer': 0,
+    'wallRepairer': 0
+  };
   for (let name in Game.creeps) {
+    var startCpu2 = Game.cpu.getUsed();
     var creep = Game.creeps[name];
     if (creep.memory.role === 'harvester') {
       numberOfHarvesters++;
@@ -76,17 +85,18 @@ module.exports.loop = function() {
     } else if (creep.memory.role === 'builder') {
       numberOfBuilders++;
       roleBuilder.run(creep);
-    } else if (creep.memory.role == 'repairer') {
+    } else if (creep.memory.role === 'repairer') {
       numberOfRepairers++;
       roleRepairer.run(creep);
-    } else if (creep.memory.role == 'wallRepairer') {
+    } else if (creep.memory.role === 'wallRepairer') {
       numberOfWallRepairers++;
       roleWallRepairer.run(creep);
     }
+    cpuUsage['creeps'][creep.memory.role] += Game.cpu.getUsed() - startCpu2;
   }
   cpuUsage['creep'] = Game.cpu.getUsed() - startCpu;
   var towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {
-    filter: (s) => s.structureType == STRUCTURE_TOWER
+    filter: (s) => s.structureType === STRUCTURE_TOWER
   });
   for (let tower of towers) {
     var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
@@ -99,12 +109,7 @@ module.exports.loop = function() {
   if (energy >= Memory.minimumEnergyNewCreep) {
     var name = undefined;
     if (numberOfHarvesters < Memory.minimumNumberOfHarvesters) {
-      console.log("Need new harvester");
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'harvester');
-    // if (name == ERR_NOT_ENOUGH_ENERGY && numberOfHarvesters == 0) {
-    //   name = Game.spawns.Spawn1.createCustomCreep(
-    //     Game.spawns.Spawn1.room.energyAvailable, 'harvester');
-    // }
     } else if (numberOfUpgraders < Memory.minimumNumberOfUpgraders) {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'upgrader');
     } else if (numberOfBuilders < Memory.minimumNumberOfBuilders) {
@@ -124,6 +129,10 @@ module.exports.loop = function() {
         "\tBucket: " + Game.cpu.bucket + "/10000" +
         "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
         "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
+        "\tH:" + (Math.round(cpuUsage['creeps']['harvester'] * 100) / 100) +
+        "\tU:" + (Math.round(cpuUsage['creeps']['upgrader'] * 100) / 100) +
+        "\tB:" + (Math.round(cpuUsage['creeps']['builder'] * 100) / 100) +
+        "\tR:" + (Math.round(cpuUsage['creeps']['repairer'] * 100) / 100) +
         "");
   }
   if (Game.time % 10 === 0 && Memory.dbg === true) {

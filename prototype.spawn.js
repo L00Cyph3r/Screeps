@@ -13,8 +13,8 @@ module.exports = function() {
     }
 
     var newCreepName = (roleName.substr(0, 1).toUpperCase() + "-" + numberOfParts + "-" + Math.floor((Math.random() * 1000) + 1)).toString();
-    if (Memory.dbg)
-      console.log("Created new creep: " + newCreepName + " with a factor " + numberOfParts + " for the body-parts");
+
+    console.log("Created new creep: " + newCreepName + " with a factor " + numberOfParts + " for the body-parts");
 
     return this.createCreep(body, newCreepName, {
       role: roleName,

@@ -4,11 +4,21 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleWallRepairer = require('role.wallRepairer');
-var minHarvesters = 2;
-var minUpgraders = 1;
-var minBuilders = 1;
+
 var cpuUsage = {};
+
+var minimumEnergyNewCreep = 200;
+var minimumNumberOfHarvesters = 5;
+var minimumNumberOfUpgraders = 1;
+var minimumNumberOfBuilders = 10;
+var minimumNumberOfRepairers = 1;
+var minimumNumberOfWallRepairers = 0;
+
 module.exports.loop = function() {
+  if (Memory.dbg === undefined) {
+    Memory.dbg = true;
+    console.log("Variable 'dbg' was non-existent in memory, added with default value of 'true'");
+  }
   var numberOfHarvesters = 0;
   var numberOfUpgraders = 0;
   var numberOfBuilders = 0;
@@ -41,10 +51,8 @@ module.exports.loop = function() {
       numberOfWallRepairers++;
       roleWallRepairer.run(creep);
     }
-  // console.log('Creep ' + name + ' has used ' + elapsed + ' CPU time');
   }
   cpuUsage['creep'] = Game.cpu.getUsed() - startCpu;
-  //console.log('Creep management has used ' + elapsed + ' CPU time');
   var towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {
     filter: (s) => s.structureType == STRUCTURE_TOWER
   });
@@ -55,44 +63,40 @@ module.exports.loop = function() {
     }
   }
 
-  // setup some minimum numbers for different roles
-  var minimumNumberOfHarvesters = 5;
-  var minimumNumberOfUpgraders = 5;
-  var minimumNumberOfBuilders = 5;
-  var minimumNumberOfRepairers = 2;
-  var minimumNumberOfWallRepairers = 2;
-
-  // count the number of creeps alive for each role
-  // _.sum will count the number of properties in Game.creeps filtered by the
-  //  arrow function, which checks for the creep being a harvester
   var energy = Game.spawns.Spawn1.energy;
-  if (energy >= 200) {
+  if (energy >= minimumEnergyNewCreep) {
     var name = undefined;
     if (numberOfHarvesters < minimumNumberOfHarvesters) {
+      console.log("Need new harvester");
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'harvester');
-      if (name == ERR_NOT_ENOUGH_ENERGY && numberOfHarvesters == 0) {
-        name = Game.spawns.Spawn1.createCustomCreep(
-          Game.spawns.Spawn1.room.energyAvailable, 'harvester');
-      }
+    // if (name == ERR_NOT_ENOUGH_ENERGY && numberOfHarvesters == 0) {
+    //   name = Game.spawns.Spawn1.createCustomCreep(
+    //     Game.spawns.Spawn1.room.energyAvailable, 'harvester');
+    // }
     } else if (numberOfUpgraders < minimumNumberOfUpgraders) {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'upgrader');
-    } else if (numberOfRepairers < minimumNumberOfRepairers) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'repairer');
     } else if (numberOfBuilders < minimumNumberOfBuilders) {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'builder');
+    } else if (numberOfRepairers < minimumNumberOfRepairers) {
+      name = Game.spawns.Spawn1.createCustomCreep(energy, 'repairer');
     } else if (numberOfWallRepairers < minimumNumberOfWallRepairers) {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'wallRepairer');
-    } else {
-      //name = Game.spawns.Spawn1.createCustomCreep(energy, 'builder');
     }
     if (name !== undefined && !name < 0) {
       console.log("Spawned new creep: " + name);
     }
   }
-  console.log(
+  (Memory.dbg) ? console.log(
     "Total: " + (Math.round(Game.cpu.getUsed() * 100) / 100) +
     "\tBucket: " + Game.cpu.bucket + "/10000" +
     "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
     "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
-    "");
+    "") : null;
+  if (Game.time % 10 === 0) {
+    console.log(numberOfHarvesters + "/" + minimumNumberOfHarvesters + " Harvesters\t" +
+      numberOfUpgraders + "/" + minimumNumberOfUpgraders + " Upgraders\t" +
+      numberOfBuilders + "/" + minimumNumberOfBuilders + " Builders\t" +
+      numberOfRepairers + "/" + minimumNumberOfRepairers + " Repairers\t" +
+      numberOfWallRepairers + "/" + minimumNumberOfWallRepairers + " WallRepairers");
+  }
 };

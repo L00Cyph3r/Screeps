@@ -8,8 +8,8 @@ var roleWallRepairer = require('role.wallRepairer');
 var cpuUsage = {};
 
 if (Memory.minimumEnergyNewCreep === undefined) {
-  Memory.minimumEnergyNewCreep = 200;
-  console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, added with default value of '" + Memory.minimumEnergyNewCreep + "'");
+  Memory.minimumEnergyNewCreep = Game.spawns.Spawn1.energyCapacity;
+  console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, added with default value of '" + Game.spawns.Spawn1.energyCapacity + "'");
 }
 if (Memory.minimumNumberOfHarvesters === undefined) {
   Memory.minimumNumberOfHarvesters = 1;

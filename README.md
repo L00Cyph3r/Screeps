@@ -13,7 +13,7 @@ In this script we are assuming the following:
 In memory, there are variables that control some elements of the script, here's the list.
   - #### `minimumEnergyNewCreep`
     - type: `integer`  
-    - default: `200`
+    - default: `Game.spawns.Spawn1.energyCapacity`
 
     This controls the minimum amount of `energy` needed in your spawn before attempting to spawn any new creeps. This is a very crude way to control the minimum body-parts of new creeps.
 
@@ -60,4 +60,4 @@ In memory, there are variables that control some elements of the script, here's 
     Controls whether or not the CPU-Usage should be displayed on the console at every tick.
 
 # Credits
-Special thanks to [thPion's tutorial-scripts](https://github.com/thPion/Screeps-Nooby-Guide) and his [helpful videos](https://www.youtube.com/playlist?list=PL0EZQ169YGlor5rzeJEYYPE3tGYT2zGT2).
+Special thanks to [thPion's tutorial-scripts](https://github.com/thPion/Screeps-Nooby-Guide) and his [helpful videos](https://www.youtube.com/playlist?list=PL0EZQ169YGlor5rzeJEYYPE3tGYT2zGT2)

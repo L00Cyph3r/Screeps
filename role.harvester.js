@@ -7,7 +7,8 @@ module.exports = {
         if (creep.carry.energy === 0) {
           creep.memory.working = false;
           creep.say(">harvest");
-          console.log("Harvester: " + creep.name + " is out of energy. Getting some now.");
+          if (Memory.dbg)
+            console.log("Harvester: " + creep.name + " is out of energy. Getting some now.");
         }
         var targets = creep.room.find(FIND_STRUCTURES, {
           filter: (structure) => {
@@ -25,7 +26,8 @@ module.exports = {
         //console.log("Harvester: " + name + " is not working");
         if (creep.carry.energy === creep.carryCapacity) {
           creep.memory.working = true;
-          console.log("Harvester: " + creep.name + " is full, dropping off at spawn.");
+          if (Memory.dbg)
+            console.log("Harvester: " + creep.name + " is full, dropping off at spawn.");
         }
         var source = creep.pos.findClosestByPath(FIND_SOURCES);
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {

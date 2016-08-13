@@ -14,6 +14,7 @@ Note that the folder `ScreepsAutocomplete` is only needed if you want autocomple
 
 # More docs
   - #### [Creeps](docs/creeps.md) - Roles, naming and stuff
+  
   - #### [Config](docs/config.md) - Settings you can change
 
 # Credits

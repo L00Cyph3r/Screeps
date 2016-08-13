@@ -16,9 +16,12 @@ module.exports = function() {
     }
 
     // create creep with the created body and the given role
-    return this.createCreep(body, (roleName.substr(0, 1).toUpperCase() + "-" + numberOfParts + "-" + Math.floor((Math.random() * 1000) + 1)).toString(), {
+    var newCreepName = (roleName.substr(0, 1).toUpperCase() + "-" + numberOfParts + "-" + Math.floor((Math.random() * 1000) + 1)).toString();
+    return this.createCreep(body, newCreepName, {
       role: roleName,
       working: false
     });
+    if (Memory.dbg)
+      console.log("Created new creep: " + newCreepName + " with a factor " + numberOfParts + " for the body-parts");
   };
 };

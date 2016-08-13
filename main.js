@@ -35,6 +35,10 @@ if (Memory.dbg === undefined) {
   Memory.dbg = true;
   console.log("Variable 'dbg' was non-existent in memory, added with default value of 'true'");
 }
+if (Memory.showCPUUsage === undefined) {
+  Memory.showCPUUsage = true;
+  console.log("Variable 'showCPUUsage' was non-existent in memory, added with default value of 'true'");
+}
 
 module.exports.loop = function() {
   var numberOfHarvesters = 0;
@@ -104,17 +108,17 @@ module.exports.loop = function() {
       console.log("Spawned new creep: " + name);
     }
   }
-  (Memory.dbg) ? console.log(
+  (Memory.showCPUUsage) ? console.log(
     "Total: " + (Math.round(Game.cpu.getUsed() * 100) / 100) +
     "\tBucket: " + Game.cpu.bucket + "/10000" +
     "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
     "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
     "") : null;
-  if (Game.time % 10 === 0) {
-    console.log(numberOfHarvesters + "/" + minimumNumberOfHarvesters + " Harvesters\t" +
-      numberOfUpgraders + "/" + minimumNumberOfUpgraders + " Upgraders\t" +
-      numberOfBuilders + "/" + minimumNumberOfBuilders + " Builders\t" +
-      numberOfRepairers + "/" + minimumNumberOfRepairers + " Repairers\t" +
-      numberOfWallRepairers + "/" + minimumNumberOfWallRepairers + " WallRepairers");
+  if (Game.time % 10 === 0 && Memory.dbg === true) {
+    console.log(numberOfHarvesters + "/" + Memory.minimumNumberOfHarvesters + " Harvesters\t" +
+      numberOfUpgraders + "/" + Memory.minimumNumberOfUpgraders + " Upgraders\t" +
+      numberOfBuilders + "/" + Memory.minimumNumberOfBuilders + " Builders\t" +
+      numberOfRepairers + "/" + Memory.minimumNumberOfRepairers + " Repairers\t" +
+      numberOfWallRepairers + "/" + Memory.minimumNumberOfWallRepairers + " WallRepairers");
   }
 };

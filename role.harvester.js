@@ -6,7 +6,7 @@ module.exports = {
         //console.log("Harvester: " + name + " is working");
         if (creep.carry.energy === 0) {
           creep.memory.working = false;
-          creep.say("Going to harvest");
+          creep.say(">harvest");
           console.log("Harvester: " + creep.name + " is out of energy. Getting some now.");
         }
         if (creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

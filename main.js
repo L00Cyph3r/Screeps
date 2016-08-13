@@ -31,12 +31,12 @@ if (Memory.minimumNumberOfWallRepairers === undefined) {
   Memory.minimumNumberOfWallRepairers = 0;
   console.log("Variable 'minimumNumberOfWallRepairers' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfWallRepairers + "'");
 }
+if (Memory.dbg === undefined) {
+  Memory.dbg = true;
+  console.log("Variable 'dbg' was non-existent in memory, added with default value of 'true'");
+}
 
 module.exports.loop = function() {
-  if (Memory.dbg === undefined) {
-    Memory.dbg = true;
-    console.log("Variable 'dbg' was non-existent in memory, added with default value of 'true'");
-  }
   var numberOfHarvesters = 0;
   var numberOfUpgraders = 0;
   var numberOfBuilders = 0;

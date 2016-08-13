@@ -7,9 +7,6 @@ module.exports = {
       if (creep.carry.energy === 0) {
         creep.memory.working = false;
       }
-      var walls = creep.room.find(FIND_STRUCTURES, {
-        filter: (s) => s.structureType == STRUCTURE_WALL
-      });
       var target = undefined;
       for (let percentage = 0.1; percentage <= 1; percentage = percentage + 0.1) {
         target = creep.pos.findClosestByPath(FIND_STRUCTURES, {

@@ -9,11 +9,17 @@ module.exports = {
           creep.say(">harvest");
           console.log("Harvester: " + creep.name + " is out of energy. Getting some now.");
         }
-        if (creep.transfer(Game.spawns.Spawn1, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          //creep.say(">Spawn");
-          creep.moveTo(Game.spawns.Spawn1);
-        } else {
-          //creep.say("Energy>");
+        var targets = creep.room.find(FIND_STRUCTURES, {
+          filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTENSION ||
+              structure.structureType == STRUCTURE_SPAWN ||
+              structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+          }
+        });
+        if (targets.length > 0) {
+          if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(targets[0]);
+          }
         }
       } else {
         //console.log("Harvester: " + name + " is not working");

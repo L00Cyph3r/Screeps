@@ -8,28 +8,34 @@ var roleWallRepairer = require('role.wallRepairer');
 var cpuUsage = {};
 
 if (Memory.minimumEnergyNewCreep === undefined) {
-  Memory.minimumEnergyNewCreep = Game.spawns.Spawn1.energyCapacity;
-  console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, added with default value of '" + Game.spawns.Spawn1.energyCapacity + "'");
+  Memory.minimumEnergyNewCreep = Game.spawns.Spawn1.room.energyCapacityAvailable;
+  console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, \
+  added with default value of '" + Game.spawns.Spawn1.room.energyCapacityAvailable + "'");
 }
 if (Memory.minimumNumberOfHarvesters === undefined) {
   Memory.minimumNumberOfHarvesters = 1;
-  console.log("Variable 'minimumNumberOfHarvesters' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfHarvesters + "'");
+  console.log("Variable 'minimumNumberOfHarvesters' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfHarvesters + "'");
 }
 if (Memory.minimumNumberOfUpgraders === undefined) {
   Memory.minimumNumberOfUpgraders = 1;
-  console.log("Variable 'minimumNumberOfUpgraders' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfUpgraders + "'");
+  console.log("Variable 'minimumNumberOfUpgraders' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfUpgraders + "'");
 }
 if (Memory.minimumNumberOfBuilders === undefined) {
   Memory.minimumNumberOfBuilders = 1;
-  console.log("Variable 'minimumNumberOfBuilders' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfBuilders + "'");
+  console.log("Variable 'minimumNumberOfBuilders' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfBuilders + "'");
 }
 if (Memory.minimumNumberOfRepairers === undefined) {
   Memory.minimumNumberOfRepairers = 0;
-  console.log("Variable 'minimumNumberOfRepairers' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfRepairers + "'");
+  console.log("Variable 'minimumNumberOfRepairers' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfRepairers + "'");
 }
 if (Memory.minimumNumberOfWallRepairers === undefined) {
   Memory.minimumNumberOfWallRepairers = 0;
-  console.log("Variable 'minimumNumberOfWallRepairers' was non-existent in memory, added with default value of '" + Memory.minimumNumberOfWallRepairers + "'");
+  console.log("Variable 'minimumNumberOfWallRepairers' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfWallRepairers + "'");
 }
 if (Memory.dbg === undefined) {
   Memory.dbg = true;
@@ -85,7 +91,7 @@ module.exports.loop = function() {
     }
   }
 
-  var energy = Game.spawns.Spawn1.energy;
+  var energy = Game.spawns.Spawn1.room.energyAvailable;
   if (energy >= Memory.minimumEnergyNewCreep) {
     var name = undefined;
     if (numberOfHarvesters < Memory.minimumNumberOfHarvesters) {

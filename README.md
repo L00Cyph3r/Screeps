@@ -9,35 +9,46 @@ In this script we are assuming the following:
 - Your spawn is called `Spawn1`
 
 # Roles
-- ### Harvester<a name="role-harvester"></a>
+- ### <a name="role-harvester"></a>Harvester
+
   Harvesters have the task of keeping the energy-levels full of the following structures:
   ```
   STRUCTURE_EXTENSION
   STRUCTURE_SPAWN
   STRUCTURE_TOWER
   ```
-- ### Upgrader
+- ### <a name="role-upgrader"></a>Upgrader
+
   Upgraders' their main task is upgrading your controller.  
   Defaults to (in order):  
-  - [Harvester](#harvester)
-- ### Builder
+  - [Harvester](#role-harvester)
+
+
+- ### <a name="role-builder"></a>Builder
+
   Builders' their main task is building their closest construction site.  
   Defaults to (in order):  
-  - [Upgrader](#upgrader)
-  - [Harvester](#harvester)
-- ### Repairer
+  - [Upgrader](#role-upgrader)
+  - [Harvester](#role-harvester)
+
+
+- ### <a name="role-repairer"></a>Repairer
+
   Repairers' their main task is repairing closest construction building with less than 100% of it's HP.  
   Defaults to (in order):  
-  - [Builder](#builder)
-  - [Upgrader](#upgrader)
-  - [Harvester](#harvester)
-- ### WallRepairer
+  - [Builder](#role-builder)
+  - [Upgrader](#role-upgrader)
+  - [Harvester](#role-harvester)
+
+
+- ### WallRepairer<a name="role-wallrepairer"></a>
+
   WallRepairers' their main task is finding damaged `STRUCTURE_WALL`, and repair if necessary.  
   Default to (in order):  
-  - [Repairer](#repairer)
-  - [Builder](#builder)
-  - [Upgrader](#upgrader)
-  - [Harvester](#harvester)
+  - [Repairer](#role-repairer)
+  - [Builder](#role-builder)
+  - [Upgrader](#role-upgrader)
+  - [Harvester](#role-harvester)
 
 # Config
 - ## Memory variables

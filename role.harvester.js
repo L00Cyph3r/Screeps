@@ -50,7 +50,7 @@ module.exports = {
                 filter: (structure) => {
                   return (structure.structureType === STRUCTURE_CONTAINER ||
                     structure.structureType === STRUCTURE_STORAGE) &&
-                    structure.energy < structure.energyCapacity;
+                    structure.store.energy < structure.storeCapacity;
                 }
               });
               if (targets.length > 0) {
@@ -67,10 +67,24 @@ module.exports = {
         if (creep.carry.energy === creep.carryCapacity) {
           creep.memory.working = true;
         } else {
-          var source = creep.room.find(FIND_SOURCES)[creep.memory.sourcenum];
-          // var source = creep.room.find(LOOK_ENERGY, 0, 0, 49, 49)[creep.memory.sourcenum];
-          if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source);
+
+          var targets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+              return (structure.structureType === STRUCTURE_CONTAINER ||
+                structure.structureType === STRUCTURE_STORAGE) &&
+                structure.store.energy > creep.carryCapacity;
+            }
+          });
+          if (targets.length > 0) {
+            var source = targets[0];
+            if (creep.withdraw(source, RESOURCE_ENERGY, creep.carryCapacity - creep.carry) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(source);
+            }
+          } else {
+            var source = creep.room.find(FIND_SOURCES)[creep.memory.sourcenum];
+            if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(source);
+            }
           }
         }
       }

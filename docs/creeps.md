@@ -44,7 +44,28 @@ The following roles are currently implemented:
 
 - ### WallRepairer<a name="role-wallrepairer"></a>
 
-  WallRepairers' their main task is finding damaged `STRUCTURE_WALL`, and repair if necessary.  
+  WallRepairers' their main task is finding a damaged `STRUCTURE_WALL`, and repair if necessary.  
+  It searches with some math that exponentially grows the hits-percentage:
+  ```javascript
+  for (let percentage = 0.001; percentage <= 1; percentage = percentage * 1.995262) {
+    // Find target
+  });
+  ```
+  The above creates 11 values which are:
+  ```
+  0.001
+  0.001995262
+  0.003981070448644
+  0.0079432785855023
+  0.015848921917067
+  0.03162275164209
+  0.0630956746869
+  0.12589240206713
+  0.25118832593327
+  0.50118652157827
+  0.99999842141731
+  ```
+
   Default to (in order):  
   - [Repairer](#role-repairer)
   - [Builder](#role-builder)

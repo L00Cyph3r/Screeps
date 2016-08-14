@@ -6,6 +6,7 @@ If you want to alter this, [RTFM](https://en.wikipedia.org/wiki/RTFM)... Saves a
 # Install instructions
 - ### Before you start
   - Make sure your spawn is called `Spawn1`
+  - Set your room-name in memory. [Documentation](docs/config.md#config-rooms)
   - You don't need any creeps to start with, this script runs from the very start of a world.
 
 - ###  Copy the stuff
@@ -14,7 +15,7 @@ Note that the folder `ScreepsAutocomplete` is only needed if you want autocomple
 
 # More docs
   - #### [Creeps](docs/creeps.md) - Roles, naming and stuff
-  
+
   - #### [Config](docs/config.md) - Settings you can change
 
 # Credits

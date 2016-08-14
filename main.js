@@ -9,6 +9,17 @@ var roleWallRepairer = require('role.wallRepairer');
 var cpuUsage = {};
 
 
+if (Memory.rooms === undefined) {
+  Memory.rooms = [];
+  console.log("Variable 'rooms' was non-existent in memory, added with default value of '{}'");
+}
+if (Memory.rooms.length === 0) {
+  var error = "No rooms are defined!\n\
+Please set your first room in console with the following command:\n\
+Memory.rooms[0] = \"Room-coords\"";
+  Game.notify(error, 15);
+  console.log(error);
+}
 if (Memory.minimumEnergyNewCreep === undefined) {
   Memory.minimumEnergyNewCreep = Game.spawns.Spawn1.room.energyCapacityAvailable;
   console.log("Variable 'minimumEnergyNewCreep' was non-existent in memory, \
@@ -101,6 +112,11 @@ module.exports.loop = function() {
       }
     }
   }
+  var startCpu = Game.cpu.getUsed();
+  for (var i = 0; i < Memory.rooms.length; i++) {
+    functions.defendRoom(Memory.rooms[i]);
+  }
+  cpuUsage['defence'] = Game.cpu.getUsed() - startCpu;
   if (cont['creeps'] === true) {
     for (let name in Game.creeps) {
       var startCpu2 = Game.cpu.getUsed();
@@ -167,6 +183,7 @@ module.exports.loop = function() {
         "\tBucket: " + Game.cpu.bucket + "/10000" +
         "\tCreeps: " + (Math.round(cpuUsage['creep'] * 100) / 100) +
         "\tMemory: " + (Math.round(cpuUsage['memory'] * 100) / 100) +
+        "\tDefence: " + (Math.round(cpuUsage['defence'] * 100) / 100) +
         "\tH:" + (Math.round(cpuUsage['creeps']['harvester'] * 100) / 100) +
         "\tU:" + (Math.round(cpuUsage['creeps']['upgrader'] * 100) / 100) +
         "\tB:" + (Math.round(cpuUsage['creeps']['builder'] * 100) / 100) +

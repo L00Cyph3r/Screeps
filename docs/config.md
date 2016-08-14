@@ -1,6 +1,15 @@
 # Config
 - ## Memory variables
 In memory, there are variables that control some elements of the script, here's the list.
+
+  - #### <a name="config-rooms"></a>`rooms`
+    - type: `array`  
+    - default: `{}`
+    - example: `Memory.rooms[0] = "N12E34"`
+
+    This is the array that holds all of your room-names. This is used to manage defences and stuff across all of your rooms. It also helps to find certain objects when there is no relevant creep or spawn available.  
+    `Note`: This should be set before continuing any further, as this might produce erors.
+
   - #### `minimumEnergyNewCreep`
     - type: `integer`  
     - default: `Game.spawns.Spawn1.energyCapacity`

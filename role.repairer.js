@@ -6,7 +6,16 @@ module.exports = {
       if (creep.carry.energy === 0) {
         creep.memory.working = false;
       } else {
-        var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {});
+        var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+          filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+        });
+        if (structures.length > 0) {
+          if (creep.repair(structures[0]) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(structures[0]);
+          }
+        } else {
+          roleBuilder.run(creep);
+        }
       }
     } else {
       if (creep.carry.energy === creep.carryCapacity) {

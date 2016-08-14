@@ -15,12 +15,13 @@ Creeps theire roles are defined on creation. Their role is defined in their memo
 The following roles are currently implemented:
 - ### <a name="role-harvester"></a>Harvester
 
-  Harvesters have the task of keeping the energy-levels full of the following structures:
-  ```
-  STRUCTURE_EXTENSION
-  STRUCTURE_SPAWN
-  STRUCTURE_TOWER
-  ```
+  Harvesters have the task of keeping the energy-levels full of the following structures in order of importance:
+
+  1. `STRUCTURE_EXTENSION`
+  2. `STRUCTURE_TOWER`
+  3. `STRUCTURE_SPAWN`
+  4. `STRUCTURE_CONTAINER` or `STRUCTURE_STORAGE`
+
 - ### <a name="role-upgrader"></a>Upgrader
 
   Upgraders' their main task is upgrading your controller. They don't default because there is always some upgrading to do.

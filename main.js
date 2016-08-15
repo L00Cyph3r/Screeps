@@ -1,13 +1,13 @@
 require('prototype.spawn')();
-var functions = require('func.defence');
+var functions = require('functions');
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleWallRepairer = require('role.wallRepairer');
+var roleAttacker = require('role.attacker');
 
 var cpuUsage = {};
-
 
 if (Memory.rooms === undefined) {
   Memory.rooms = [];
@@ -50,6 +50,11 @@ if (Memory.minimumNumberOfWallRepairers === undefined) {
   console.log("Variable 'minimumNumberOfWallRepairers' was non-existent in memory, \
   added with default value of '" + Memory.minimumNumberOfWallRepairers + "'");
 }
+if (Memory.minimumNumberOfAttackers === undefined) {
+  Memory.minimumNumberOfAttackers = 0;
+  console.log("Variable 'minimumNumberOfAttackers' was non-existent in memory, \
+  added with default value of '" + Memory.minimumNumberOfAttackers + "'");
+}
 if (Memory.cpuBucketMin === undefined) {
   Memory.cpuBucketMin = 3000;
   console.log("Variable 'cpuBucketMin' was non-existent in memory, \
@@ -79,6 +84,7 @@ module.exports.loop = function() {
   var numberOfBuilders = 0;
   var numberOfRepairers = 0;
   var numberOfWallRepairers = 0;
+  var numberOfAttackers = 0;
   var startCpu = Game.cpu.getUsed();
 
   cpuUsage['memory'] = Game.cpu.getUsed() - startCpu;
@@ -114,7 +120,7 @@ module.exports.loop = function() {
   }
   var startCpu = Game.cpu.getUsed();
   for (var i = 0; i < Memory.rooms.length; i++) {
-    functions.defendRoom(Memory.rooms[i]);
+    functions.defence.defendRoom(Memory.rooms[i]);
   }
   cpuUsage['defence'] = Game.cpu.getUsed() - startCpu;
   if (cont['creeps'] === true) {
@@ -144,6 +150,10 @@ module.exports.loop = function() {
         numberOfWallRepairers++;
         if (cont['creep'][creep.memory.role])
           roleWallRepairer.run(creep);
+      } else if (creep.memory.role === 'attacker') {
+        numberOfAttackers++;
+        if (cont['creep'][creep.memory.role])
+          roleAttacker.run(creep);
       }
       cpuUsage['creeps'][creep.memory.role] += Game.cpu.getUsed() - startCpu2;
     }
@@ -172,6 +182,8 @@ module.exports.loop = function() {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'repairer');
     } else if (numberOfWallRepairers < Memory.minimumNumberOfWallRepairers) {
       name = Game.spawns.Spawn1.createCustomCreep(energy, 'wallRepairer');
+    } else if (numberOfAttackers < Memory.minimumNumberOfAttackers) {
+      name = Game.spawns.Spawn1.createCustomCreep(energy, 'attacker');
     }
     if (name !== undefined && !name < 0) {
       console.log("Spawned new creep: " + name);
@@ -195,6 +207,7 @@ module.exports.loop = function() {
       numberOfUpgraders + "/" + Memory.minimumNumberOfUpgraders + " Upgraders\t" +
       numberOfBuilders + "/" + Memory.minimumNumberOfBuilders + " Builders\t" +
       numberOfRepairers + "/" + Memory.minimumNumberOfRepairers + " Repairers\t" +
-      numberOfWallRepairers + "/" + Memory.minimumNumberOfWallRepairers + " WallRepairers");
+      numberOfWallRepairers + "/" + Memory.minimumNumberOfWallRepairers + " WallRepairers\t" +
+      numberOfAttackers + "/" + Memory.minimumNumberOfAttackers + " Attackers");
   }
 };

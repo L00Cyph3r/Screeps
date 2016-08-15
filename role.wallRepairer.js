@@ -14,7 +14,7 @@ module.exports = {
         }
         var target = undefined;
         // This creates 11 possible percentages.
-        for (let percentage = 0.001; percentage <= 1; percentage = percentage * 1.995262) {
+        for (let percentage = 0.0001; percentage <= 1; percentage = percentage * 2.782559402206) {
           target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (s) => s.structureType === STRUCTURE_WALL &&
               s.hits / s.hitsMax < percentage

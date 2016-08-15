@@ -46,11 +46,10 @@ module.exports = {
                 creep.moveTo(targets[0]);
               }
             } else {
-              // Then try containers or storage
+              // Then try storage
               var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                  return (structure.structureType === STRUCTURE_CONTAINER ||
-                    structure.structureType === STRUCTURE_STORAGE) &&
+                  return (structure.structureType === STRUCTURE_STORAGE) &&
                     structure.store.energy < structure.storeCapacity;
                 }
               });
@@ -59,7 +58,20 @@ module.exports = {
                   creep.moveTo(targets[0]);
                 }
               } else {
+                // Then try containers
+                var targets = creep.room.find(FIND_STRUCTURES, {
+                  filter: (structure) => {
+                    return (structure.structureType === STRUCTURE_CONTAINER) &&
+                      structure.store.energy < structure.storeCapacity;
+                  }
+                });
+                if (targets.length > 0) {
+                  if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets[0]);
+                  }
+                } else {
 
+                }
               }
             }
           }

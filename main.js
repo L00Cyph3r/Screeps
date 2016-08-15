@@ -79,6 +79,8 @@ if (Memory.showCPUUsageModulus === undefined) {
 }
 
 module.exports.loop = function() {
+  // var creep = Game.creeps['A-2-865'];
+  // creep.moveTo(new RoomPosition(26, 29, 'E46N58'));
   var numberOfHarvesters = 0;
   var numberOfUpgraders = 0;
   var numberOfBuilders = 0;
@@ -169,21 +171,21 @@ module.exports.loop = function() {
     }
   }
 
-  var energy = Game.spawns.Spawn1.room.energyAvailable;
-  if (energy >= Memory.minimumEnergyNewCreep) {
+  var energyInSpawn = Game.spawns.Spawn1.room.energyAvailable;
+  if (energyInSpawn >= Memory.minimumEnergyNewCreep) {
     var name = undefined;
     if (numberOfHarvesters < Memory.minimumNumberOfHarvesters) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'harvester');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'harvester');
     } else if (numberOfUpgraders < Memory.minimumNumberOfUpgraders) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'upgrader');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'upgrader');
     } else if (numberOfBuilders < Memory.minimumNumberOfBuilders) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'builder');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'builder');
     } else if (numberOfRepairers < Memory.minimumNumberOfRepairers) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'repairer');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'repairer');
     } else if (numberOfWallRepairers < Memory.minimumNumberOfWallRepairers) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'wallRepairer');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'wallRepairer');
     } else if (numberOfAttackers < Memory.minimumNumberOfAttackers) {
-      name = Game.spawns.Spawn1.createCustomCreep(energy, 'attacker');
+      name = Game.spawns.Spawn1.createCustomCreep(energyInSpawn, 'attacker');
     }
     if (name !== undefined && !name < 0) {
       console.log("Spawned new creep: " + name);
@@ -200,6 +202,7 @@ module.exports.loop = function() {
         "\tU:" + (Math.round(cpuUsage['creeps']['upgrader'] * 100) / 100) +
         "\tB:" + (Math.round(cpuUsage['creeps']['builder'] * 100) / 100) +
         "\tR:" + (Math.round(cpuUsage['creeps']['repairer'] * 100) / 100) +
+        "\tEiS:" + (energyInSpawn) +
         "");
   }
   if (Game.time % 10 === 0) {

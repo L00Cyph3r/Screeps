@@ -1,8 +1,9 @@
 module.exports = {
   run: function(creep) {
     if (creep.spawning === false) {
-      if (creep.memory.sourcenum == undefined) {
-        var numEnergySources = creep.room.lookForAtArea(LOOK_ENERGY, 0, 0, 49, 49, true).length;
+      var numEnergySources = 2;
+      if (creep.memory.sourcenum == undefined || creep.memory.sourcenum > 1) {
+        // var numEnergySources = creep.room.lookForAtArea(LOOK_SOURCES, 0, 0, 49, 49, true).length;
         creep.memory.sourcenum = Math.floor(Math.random() * (numEnergySources + 1));
       }
       if (creep.memory.working === true) {

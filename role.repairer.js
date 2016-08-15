@@ -13,11 +13,15 @@ module.exports = {
           creep.memory.working = false;
         } else {
           var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+            filter: (s) => {
+              return (
+                s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL
+              );
+            }
           });
-          if (structures.length > 0) {
-            if (creep.repair(structures[0]) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(structures[0]);
+          if (structures !== null) {
+            if (creep.repair(structures) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(structures);
             }
           } else {
             roleBuilder.run(creep);

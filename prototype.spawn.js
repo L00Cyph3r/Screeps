@@ -34,7 +34,8 @@ module.exports = function() {
         console.log("Created new creep: " + newCreepName + " with a factor " + numberOfParts + " for the body-parts");
         return this.createCreep(body, newCreepName, {
           role: roleName,
-          mode: 'attacking'
+          mode: 'defending',
+          targetLocation: [Game.flags['Rally1'].pos.x, Game.flags['Rally1'].pos.y]
         });
       } else {
         return newCreepName;

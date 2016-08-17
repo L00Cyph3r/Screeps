@@ -6,6 +6,7 @@ If you want to alter this, [RTFM](https://en.wikipedia.org/wiki/RTFM)... Saves a
 # Install instructions
 - ### Before you start
   - Make sure your spawn is called `Spawn1`
+  - Make sure you have a flag called  `Rally1`, this is the rally-point for attackers/defenders
   - Set your room-name in memory. [Documentation](docs/config.md#config-rooms)
   - You don't need any creeps to start with, this script runs from the very start of a world.
 

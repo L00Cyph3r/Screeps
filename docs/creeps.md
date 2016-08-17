@@ -70,3 +70,17 @@ The following roles are currently implemented:
   - [Repairer](#role-repairer)
   - [Builder](#role-builder)
   - [Upgrader](#role-upgrader)
+
+
+- ### Attacker<a name="role-attacker"></a>
+  - `role`
+    - type: `string`
+    - default: `attacker`
+  - `mode`
+    - type: `string`
+    - default: `defending`
+  - `targetLocation`
+    - type: `Array`
+    - default: `[Game.flags['Rally1'].pos.x, Game.flags['Rally1'].pos.y]`
+
+  Attackers' their main task is finding a hostile entity. If one is found, it will move towards is, until the target is within attacking range. They don't default to anything.

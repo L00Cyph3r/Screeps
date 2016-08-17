@@ -13,6 +13,8 @@ module.exports = {
             var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS);
             if (targets.length > 0) {
               creep.moveTo(targets[0]);
+            } else {
+              creep.moveTo(creep.memory.targetLocation[0], creep.memory.targetLocation[1]);
             }
           }
         }

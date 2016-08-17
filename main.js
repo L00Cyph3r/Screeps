@@ -107,6 +107,7 @@ module.exports.loop = function() {
       'builder': true,
       'repairer': true,
       'wallRepairer': true,
+      'attacker': true,
     },
     'memoryGC': true,
   };
@@ -166,7 +167,7 @@ module.exports.loop = function() {
   });
   for (let tower of towers) {
     var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (target != undefined) {
+    if (target) {
       tower.attack(target);
     }
   }

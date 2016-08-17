@@ -11,63 +11,63 @@ module.exports = {
           creep.memory.working = false;
         }
         // First find extenstions to fill
-        var targets = creep.room.find(FIND_STRUCTURES, {
+        var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
           filter: (structure) => {
             return (structure.structureType === STRUCTURE_EXTENSION) &&
               structure.energy < structure.energyCapacity;
           }
         });
-        if (targets.length > 0) {
-          if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(targets[0]);
+        if (target) {
+          if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
           }
         } else {
           // Then try towers
-          var targets = creep.room.find(FIND_STRUCTURES, {
+          var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
               return (structure.structureType === STRUCTURE_TOWER) &&
                 structure.energy < structure.energyCapacity;
             }
           });
-          if (targets.length > 0) {
-            if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(targets[0]);
+          if (target) {
+            if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(target);
             }
           } else {
             // Then try spawns
-            var targets = creep.room.find(FIND_STRUCTURES, {
+            var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
               filter: (structure) => {
                 return (structure.structureType === STRUCTURE_SPAWN) &&
                   structure.energy < structure.energyCapacity;
               }
             });
-            if (targets.length > 0) {
-              if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(targets[0]);
+            if (target) {
+              if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
               }
             } else {
               // Then try storage
-              var targets = creep.room.find(FIND_STRUCTURES, {
+              var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure) => {
                   return (structure.structureType === STRUCTURE_STORAGE) &&
                     structure.store.energy < structure.storeCapacity;
                 }
               });
-              if (targets.length > 0) {
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                  creep.moveTo(targets[0]);
+              if (target) {
+                if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                  creep.moveTo(target);
                 }
               } else {
                 // Then try containers
-                var targets = creep.room.find(FIND_STRUCTURES, {
+                var targets = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                   filter: (structure) => {
                     return (structure.structureType === STRUCTURE_CONTAINER) &&
                       structure.store.energy < structure.storeCapacity;
                   }
                 });
-                if (targets.length > 0) {
-                  if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                if (target) {
+                  if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                   }
                 } else {
 

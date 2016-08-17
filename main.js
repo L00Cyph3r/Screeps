@@ -191,6 +191,12 @@ module.exports.loop = function() {
     if (name !== undefined && !name < 0) {
       console.log("Spawned new creep: " + name);
     }
+  } else if (numberOfHarvesters === 0) {
+    if (energyInSpawn > 600) {
+      Game.spawns.Spawn1.createCustomCreep(400, 'harvester');
+    } else {
+      Game.spawns.Spawn1.createCustomCreep(200, 'harvester');
+    }
   }
   if (Game.time % Memory.showCPUUsageModulus === 0) {
     if (Memory.showCPUUsage) console.log(

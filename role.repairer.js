@@ -12,19 +12,40 @@ module.exports = {
         if (creep.carry.energy === 0) {
           creep.memory.working = false;
         } else {
-          var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+          var structures = creep.pos.findInRange(FIND_STRUCTURES, 1, {
             filter: (s) => {
               return (
-                s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL
+                (s.hits < 25000 && s.structureType === STRUCTURE_RAMPART) ||
+                (
+                s.structureType !== STRUCTURE_RAMPART &&
+                s.structureType !== STRUCTURE_WALL && (s.hits < s.hitsMax)
+                )
               );
             }
           });
-          if (structures !== null) {
+          if (structures.length !== 0) {
             if (creep.repair(structures) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures);
             }
           } else {
-            roleBuilder.run(creep);
+            var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+              filter: (s) => {
+                return (
+                  (s.hits < 25000 && s.structureType === STRUCTURE_RAMPART) ||
+                  (
+                  s.structureType !== STRUCTURE_RAMPART &&
+                  s.structureType !== STRUCTURE_WALL && ((s.hits < s.hitsMax) > 0.9)
+                  )
+                );
+              }
+            });
+            if (structures) {
+              if (creep.repair(structures) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(structures);
+              }
+            } else {
+              roleBuilder.run(creep);
+            }
           }
         }
       } else {

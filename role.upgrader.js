@@ -31,8 +31,11 @@ module.exports = {
           }
         } else {
           var source = creep.room.find(FIND_SOURCES)[creep.memory.sourcenum];
-          if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+          var tryHarvest = creep.harvest(source);
+          if (tryHarvest === ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
+          } else if (tryHarvest === ERR_FULL) {
+            creep.say("Full");
           }
         }
       }

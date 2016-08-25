@@ -13,7 +13,7 @@ module.exports = {
         // First find extenstions to fill
         var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
           filter: (structure) => {
-            return (structure.structureType === STRUCTURE_EXTENSION) &&
+            return (structure.structureType === STRUCTURE_TOWER) &&
               structure.energy < structure.energyCapacity;
           }
         });
@@ -25,7 +25,7 @@ module.exports = {
           // Then try towers
           var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
-              return (structure.structureType === STRUCTURE_TOWER) &&
+              return (structure.structureType === STRUCTURE_EXTENSION) &&
                 structure.energy < structure.energyCapacity;
             }
           });

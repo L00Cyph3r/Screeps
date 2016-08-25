@@ -28,8 +28,12 @@ module.exports = {
           }
         }
         if (target) {
-          if (creep.repair(target) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target);
+          if (creep.pos.findInRange(FIND_HOSTILE_CREEPS, 4).length === 0) {
+            if (creep.repair(target) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(target);
+            }
+          } else {
+            creep.moveTo(Game.spawns.Spawn1.pos);
           }
         } else {
           roleBuilder.run(creep);

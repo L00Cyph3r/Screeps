@@ -128,6 +128,14 @@ module.exports.loop = function() {
   cpuUsage['defence'] = Game.cpu.getUsed() - startCpu;
   if (cont['creeps'] === true) {
     for (let name in Game.creeps) {
+      if (Game.time % 1000 === 0) {
+        var numEnergySources = 2;
+        try {
+          creep.memory.sourcenum = Math.floor(Math.random() * (numEnergySources + 1));
+        } catch (e) {
+          console.log(e.message);
+        }
+      }
       var startCpu2 = Game.cpu.getUsed();
       var creep = Game.creeps[name];
       if (creep.memory.role === 'harvester') {
@@ -166,9 +174,12 @@ module.exports.loop = function() {
     filter: (s) => s.structureType === STRUCTURE_TOWER
   });
   for (let tower of towers) {
-    var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (target) {
-      tower.attack(target);
+    var target = tower.room.find(FIND_HOSTILE_CREEPS);
+    if (target.length > 1) {
+      console.log("Enemy (" + target[0].owner.username + ") at: " +
+        target[0].pos.x + "," + target[0].pos.x +
+        " with " + (target[0].hits / target[0].hitsMax) * 100 + "% HP");
+      console.log(tower.attack(target[target.length - 1]));
     }
   }
 

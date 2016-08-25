@@ -17,8 +17,8 @@ The following roles are currently implemented:
 
   Harvesters have the task of keeping the energy-levels full of the following structures in order of importance:
 
-  1. `STRUCTURE_EXTENSION`
-  2. `STRUCTURE_TOWER`
+  1. `STRUCTURE_TOWER`
+  2. `STRUCTURE_EXTENSION`
   3. `STRUCTURE_SPAWN`
   4. `STRUCTURE_CONTAINER` or `STRUCTURE_STORAGE`
 
@@ -36,7 +36,7 @@ The following roles are currently implemented:
 
 - ### <a name="role-repairer"></a>Repairer
 
-  Repairers' their main task is repairing closest construction building with less than 100% of it's HP.  
+  Repairers' their main task is repairing closest construction building with less than 90% of it's HP. When it found a target, it will keep repairing that target until 100% HP is reached.  
   Defaults to (in order):  
   - [Builder](#role-builder)
   - [Upgrader](#role-upgrader)
@@ -47,23 +47,19 @@ The following roles are currently implemented:
   WallRepairers' their main task is finding a damaged `STRUCTURE_WALL`, and repair if necessary.  
   It searches with some math that exponentially grows the hits-percentage:
   ```javascript
-  for (let percentage = 0.001; percentage <= 1; percentage = percentage * 1.995262) {
-    // Find target
-  });
-  ```
-  The above creates 11 values which are:
-  ```
-  0.001
-  0.001995262
-  0.003981070448644
-  0.0079432785855023
-  0.015848921917067
-  0.03162275164209
-  0.0630956746869
-  0.12589240206713
-  0.25118832593327
-  0.50118652157827
-  0.99999842141731
+  for (let percentage = 0.0001; percentage <= 1; percentage = percentage * 2.782559402206) {
+    let minHitsWalls = (300 * 1000 * 1000) * percentage;
+    let minHitsRamparts = (300 * 1000 * 1000) * percentage;
+    target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+      filter: (s) => {
+        return (s.structureType === STRUCTURE_RAMPART && s.hits < minHitsRamparts && s.hits < s.hitsMax) ||
+          (s.structureType === STRUCTURE_WALL && s.hits < minHitsWalls && s.hits < s.hitsMax);
+      }
+    });
+    if (target) {
+      break;
+    }
+  }
   ```
 
   Default to (in order):  

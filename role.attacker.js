@@ -14,7 +14,7 @@ module.exports = {
           if (targets.length > 0) {
             creep.rangedAttack(targets[0]);
           } else {
-            var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS);
+            var targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, 999);
             if (targets.length > 0) {
               creep.moveTo(targets[0]);
             } else {

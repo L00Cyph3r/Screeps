@@ -1,5 +1,11 @@
 module.exports = {
   run: function(creep) {
+    var prio1Target = STRUCTURE_EXTENSION;
+    var prio2Target = STRUCTURE_TOWER;
+    if (creep.room.energyAvailable > Memory.minimumEnergyNewCreep) {
+      prio1Target = STRUCTURE_TOWER;
+      prio2Target = STRUCTURE_EXTENSION;
+    }
     if (creep.spawning === false) {
       var numEnergySources = 2;
       if (creep.memory.sourcenum == undefined || creep.memory.sourcenum > 1) {
@@ -13,7 +19,7 @@ module.exports = {
         // First find extenstions to fill
         var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
           filter: (structure) => {
-            return (structure.structureType === STRUCTURE_TOWER) &&
+            return (structure.structureType === prio1Target) &&
               structure.energy < structure.energyCapacity;
           }
         });
@@ -25,7 +31,7 @@ module.exports = {
           // Then try towers
           var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
-              return (structure.structureType === STRUCTURE_EXTENSION) &&
+              return (structure.structureType === prio2Target) &&
                 structure.energy < structure.energyCapacity;
             }
           });

@@ -34,7 +34,7 @@ module.exports = {
                   (s.hits < 25000 && s.structureType === STRUCTURE_RAMPART) ||
                   (
                   s.structureType !== STRUCTURE_RAMPART &&
-                  s.structureType !== STRUCTURE_WALL && ((s.hits < s.hitsMax) > 0.9)
+                  s.structureType !== STRUCTURE_WALL && ((s.hits < s.hitsMax) < 0.9)
                   )
                 );
               }

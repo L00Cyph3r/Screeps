@@ -91,7 +91,6 @@ module.exports.loop = function() {
 
   cpuUsage['memory'] = Game.cpu.getUsed() - startCpu;
 
-  var startCpu = Game.cpu.getUsed();
   cpuUsage['creeps'] = {
     'harvester': 0,
     'upgrader': 0,
@@ -121,7 +120,6 @@ module.exports.loop = function() {
       }
     }
   }
-  var startCpu = Game.cpu.getUsed();
   for (var i = 0; i < Memory.rooms.length; i++) {
     functions.defence.defendRoom(Memory.rooms[i]);
   }
@@ -174,8 +172,9 @@ module.exports.loop = function() {
     filter: (s) => s.structureType === STRUCTURE_TOWER
   });
   for (let tower of towers) {
+    var targets = [];
     if (tower.energy / tower.energyCapacity > 0.1) {
-      var targets = tower.room.find(FIND_STRUCTURES, {
+      targets = tower.room.find(FIND_STRUCTURES, {
         filter: (s) => {
           return (
             (s.hits < 25000 && s.structureType === STRUCTURE_RAMPART) ||
@@ -186,14 +185,12 @@ module.exports.loop = function() {
           );
         }
       });
-    } else {
-      var targets = [];
     }
     if (targets.length > 0) {
       console.log("Tower found " + targets.length + " repairable target");
       tower.repair(targets[0]);
     } else {
-      var targets = tower.room.find(FIND_HOSTILE_CREEPS);
+      targets = tower.room.find(FIND_HOSTILE_CREEPS);
       if (targets.length > 0) {
         console.log("Enemy (" + targets[0].owner.username + ") at: " +
           targets[0].pos.x + "," + targets[0].pos.x +

@@ -65,7 +65,7 @@ module.exports = {
                 }
               } else {
                 // Then try containers
-                var targets = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                   filter: (structure) => {
                     return (structure.structureType === STRUCTURE_CONTAINER) &&
                       structure.store.energy < structure.storeCapacity;

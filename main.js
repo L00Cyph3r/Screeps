@@ -131,7 +131,7 @@ module.exports.loop = function() {
       if (Game.time % 1000 === 0) {
         var numEnergySources = 2;
         try {
-          creep.memory.sourcenum = Math.floor(Math.random() * (numEnergySources + 1));
+          creep.memory.sourcenum = Math.floor(Math.random() * (numEnergySources));
         } catch (e) {
           console.log(e.message);
         }
@@ -174,12 +174,32 @@ module.exports.loop = function() {
     filter: (s) => s.structureType === STRUCTURE_TOWER
   });
   for (let tower of towers) {
-    var target = tower.room.find(FIND_HOSTILE_CREEPS);
-    if (target.length > 1) {
-      console.log("Enemy (" + target[0].owner.username + ") at: " +
-        target[0].pos.x + "," + target[0].pos.x +
-        " with " + (target[0].hits / target[0].hitsMax) * 100 + "% HP");
-      console.log(tower.attack(target[target.length - 1]));
+    if (tower.energy / tower.energyCapacity > 0.1) {
+      var targets = tower.room.find(FIND_STRUCTURES, {
+        filter: (s) => {
+          return (
+            (s.hits < 25000 && s.structureType === STRUCTURE_RAMPART) ||
+            (
+            (s.structureType !== STRUCTURE_RAMPART &&
+            s.structureType !== STRUCTURE_WALL) && ((s.hits / s.hitsMax) < 1)
+            )
+          );
+        }
+      });
+    } else {
+      var targets = [];
+    }
+    if (targets.length > 0) {
+      console.log("Tower found " + targets.length + " repairable target");
+      tower.repair(targets[0]);
+    } else {
+      var targets = tower.room.find(FIND_HOSTILE_CREEPS);
+      if (targets.length > 0) {
+        console.log("Enemy (" + targets[0].owner.username + ") at: " +
+          targets[0].pos.x + "," + targets[0].pos.x +
+          " with " + (targets[0].hits / targets[0].hitsMax) * 100 + "% HP");
+        console.log(tower.attack(targets[targets.length - 1]));
+      }
     }
   }
 

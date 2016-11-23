@@ -173,7 +173,7 @@ module.exports.loop = function() {
   });
   for (let tower of towers) {
     var targets = [];
-    if (tower.energy / tower.energyCapacity > 0.1) {
+    if (tower.energy / tower.energyCapacity > 0.5) {
       targets = tower.room.find(FIND_STRUCTURES, {
         filter: (s) => {
           return (

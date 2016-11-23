@@ -201,6 +201,7 @@ module.exports.loop = function() {
   }
 
   var energyInSpawn = Game.spawns.Spawn1.room.energyAvailable;
+  var energyInSpawnTotal = Game.spawns.Spawn1.room.energyCapacityAvailable;
   if (energyInSpawn >= Memory.minimumEnergyNewCreep) {
     var name = undefined;
     if (numberOfHarvesters < Memory.minimumNumberOfHarvesters) {
@@ -237,7 +238,7 @@ module.exports.loop = function() {
         "\tU:" + (Math.round(cpuUsage['creeps']['upgrader'] * 100) / 100) +
         "\tB:" + (Math.round(cpuUsage['creeps']['builder'] * 100) / 100) +
         "\tR:" + (Math.round(cpuUsage['creeps']['repairer'] * 100) / 100) +
-        "\tEiS:" + (energyInSpawn) +
+        "\tEiS:" + (energyInSpawn) + "/" + energyInSpawnTotal +
         "");
   }
   if (Game.time % 10 === 0) {

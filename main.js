@@ -1,20 +1,20 @@
 require('prototype.spawn')();
-var functions = require('functions');
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleRepairer = require('role.repairer');
-var roleWallRepairer = require('role.wallRepairer');
-var roleAttacker = require('role.attacker');
+const functions = require('functions');
+const roleHarvester = require('role.harvester');
+const roleUpgrader = require('role.upgrader');
+const roleBuilder = require('role.builder');
+const roleRepairer = require('role.repairer');
+const roleWallRepairer = require('role.wallRepairer');
+const roleAttacker = require('role.attacker');
 
-var cpuUsage = {};
+const cpuUsage = {};
 
 if (Memory.rooms === undefined) {
   Memory.rooms = [];
   console.log("Variable 'rooms' was non-existent in memory, added with default value of '{}'");
 }
 if (Memory.rooms.length === 0) {
-  var error = "No rooms are defined!\n\
+  let error = "No rooms are defined!\n\
 Please set your first room in console with the following command:\n\
 Memory.rooms[0] = \"Room-coords\"";
   Game.notify(error, 15);
